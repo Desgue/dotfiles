@@ -20,6 +20,5 @@ if ! grep -q "/opt/nvim/bin" ~/.zshrc; then
     echo 'export PATH="/opt/nvim/bin:$PATH"' >> ~/.zshrc
 fi
 
-source ~/.zshrc
-
-echo "Installation complete! Please restart your terminal or run:"
+echo "Installation complete!"
+echo "👉 Restart your terminal or run: source ~/.zshrc"
