@@ -1,11 +1,25 @@
 #!/bin/bash
+
+set -e
+
 echo "Downloading latest Neovim release..."
 sudo curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-echo "Removing old nvim installation..."
+
+echo "Removing old Neovim installation..."
 sudo rm -rf /opt/nvim
-echo "Unziping nvim tar file..."
+
+echo "Extracting Neovim tar file..."
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-echo "Removing tar file..."
+sudo mv /opt/nvim-linux64 /opt/nvim
+
+echo "Cleaning installation file..."
 sudo rm nvim-linux-x86_64.tar.gz
-echo "Exporting nvim to path..."
-echo export PATH="$PATH:/opt/nvim-linux-x86_64/bin" >> ~/.zshrc
+
+echo "Updating PATH..."
+if ! grep -q "/opt/nvim/bin" ~/.zshrc; then
+    echo 'export PATH="/opt/nvim/bin:$PATH"' >> ~/.zshrc
+fi
+
+source ~/.zshrc
+
+echo "Installation complete! Please restart your terminal or run:"
