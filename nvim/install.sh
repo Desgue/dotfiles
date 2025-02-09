@@ -10,7 +10,7 @@ sudo rm -rf /opt/nvim
 
 echo "Extracting Neovim tar file..."
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-sudo mv /opt/nvim-linux64 /opt/nvim
+sudo mv /opt/nvim-linux-x86_64 /opt/nvim
 
 echo "Cleaning installation file..."
 sudo rm nvim-linux-x86_64.tar.gz
