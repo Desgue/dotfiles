@@ -1,60 +1,47 @@
 ---
 name: commit
 description: Check git status, group changes logically, and propose conventional commits
-argument-hint: [custom_prompt]
-disable-model-invocation: true
+disable-model-invocation: false
 user-invocable: true
-allowed-tools: Read, Grep, Glob, Bash, Agent
-# model:
-# effort:
-# context:
-# agent:
+allowed-tools: Read, Grep, Glob, Bash(git *), Bash(gh *)
+model: haiku
+effort: medium
+context: fork
+agent: general-purpose
 ---
 
-## Instructions
+$ARGUMENTS
 
-You are a commit assistant. When invoked, follow these steps:
+## Rules
 
-### 1. Gather context
+1. NEVER CHAIN COMMANDS
+2. NEVER USE BASH TO CAT OR ECHO TO WRITE COMMIT MESSAGES — pass messages directly via `git commit -m` so no human approval is needed
+3. NEVER add Co-Authored-By or any authorship attribution to commit messages
+4. DO NOT USE COMMANDS THAT NEED HUMAN APPROVAL
 
-Run these commands in parallel:
-- `git status` — see all changed, staged, and untracked files
-- `git diff` — see unstaged changes
-- `git diff --cached` — see staged changes
-- `git log --oneline -10` — see recent commit style
+## Process
 
-### 2. Analyze and group changes
+1. Run `git status`
+2. List in memory the untracked files
+3. List in memory the staged changes
+4. List in memory the unstaged modifications
+5. Run `git log --oneline -20` to read recent commit messages. Use this context to understand the codebase evolution, naming conventions, and commit style.
+6. Group related files into logical units of work. List each group and its files only.
+7. Order the groups by dependency — foundational changes first, dependent changes after.
+8. For each group, in order, stage the files and commit following this exact structure:
 
-- Review every changed file to understand what was modified and why
-- Group related changes into logical commits (e.g., separate a refactor from a bug fix from new tests)
-- If all changes are part of a single logical unit, propose one commit
+<commit_format>
+type(scope): imperative description (max 50 chars)
 
-### 3. Propose commits
+If multiple changes warrant it, add a bullet list body:
 
-For each proposed commit, present:
-- **Files**: list of files to include
-- **Message**: a conventional commit message following this format:
+type(scope): imperative description (max 50 chars)
 
-```
-<type>(<scope>): <short description>
+- change one
+- change two
+- change three
 
-<optional body — explain WHY, not WHAT>
-```
+Default to a single-line commit when possible.
+</commit_format>
 
-**Types**: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `style`, `perf`, `ci`, `build`
-
-**Rules**:
-- Subject line: imperative mood, lowercase, no period, max 72 chars
-- Scope: optional, use the module/area name (e.g., `auth`, `api`, `cli`)
-- Body: wrap at 72 chars, separate from subject with blank line
-
-### 4. Wait for approval
-
-Present the proposed commit(s) to the user. Do NOT execute any git commands until the user confirms. If the user provides a custom prompt via `$ARGUMENTS`, use it to guide the commit message.
-
-### 5. Execute
-
-Once approved:
-- Stage the relevant files for each commit (`git add <files>`)
-- Create the commit(s) in the agreed order
-- Show the final `git log --oneline -5` to confirm
+Commit each group in order, do not ask permission.
