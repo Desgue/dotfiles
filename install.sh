@@ -17,6 +17,10 @@ echo "--- Installing Neovim ---"
 "$SCRIPT_DIR/nvim/install.sh"
 
 echo ""
+echo "--- Installing Claude Code ---"
+"$SCRIPT_DIR/claude/install.sh"
+
+echo ""
 echo "========================================="
 echo "  All done!"
 echo "========================================="
