@@ -42,5 +42,25 @@ if ! grep -q "/opt/nvim/bin" ~/.zshrc; then
   echo 'export PATH="/opt/nvim/bin:$PATH"' >>~/.zshrc
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+NVIM_CONFIG_DIR="${HOME}/.config/nvim"
+
+echo "Setting up Neovim config..."
+if [ -L "$NVIM_CONFIG_DIR" ]; then
+  echo "Removing existing symlink at $NVIM_CONFIG_DIR"
+  rm "$NVIM_CONFIG_DIR"
+elif [ -d "$NVIM_CONFIG_DIR" ]; then
+  echo "Backing up existing config to ${NVIM_CONFIG_DIR}.bak"
+  mv "$NVIM_CONFIG_DIR" "${NVIM_CONFIG_DIR}.bak"
+fi
+
+mkdir -p "${HOME}/.config"
+ln -s "$SCRIPT_DIR" "$NVIM_CONFIG_DIR"
+echo "Symlinked $SCRIPT_DIR -> $NVIM_CONFIG_DIR"
+
+echo "Installing plugins via lazy.nvim..."
+export PATH="/opt/nvim/bin:$PATH"
+nvim --headless "+Lazy! sync" +qa
+
 echo "Installation complete!"
 echo "👉 Restart your terminal or run: source ~/.zshrc"
