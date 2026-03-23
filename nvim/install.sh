@@ -55,8 +55,8 @@ elif [ -d "$NVIM_CONFIG_DIR" ]; then
 fi
 
 mkdir -p "${HOME}/.config"
-ln -s "$SCRIPT_DIR" "$NVIM_CONFIG_DIR"
-echo "Symlinked $SCRIPT_DIR -> $NVIM_CONFIG_DIR"
+cp -r "$SCRIPT_DIR" "$NVIM_CONFIG_DIR"
+echo "Copied $SCRIPT_DIR -> $NVIM_CONFIG_DIR"
 
 echo "Installing plugins via lazy.nvim..."
 export PATH="/opt/nvim/bin:$PATH"

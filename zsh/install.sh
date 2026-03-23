@@ -37,7 +37,7 @@ else
   echo "Oh My Zsh is already installed."
 fi
 
-# Symlink .zshrc
+# Copy .zshrc
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ZSHRC_SOURCE="$SCRIPT_DIR/.zshrc"
 ZSHRC_TARGET="$HOME/.zshrc"
@@ -51,7 +51,7 @@ elif [ -f "$ZSHRC_TARGET" ]; then
   mv "$ZSHRC_TARGET" "${ZSHRC_TARGET}.bak"
 fi
 
-ln -s "$ZSHRC_SOURCE" "$ZSHRC_TARGET"
-echo "Symlinked $ZSHRC_SOURCE -> $ZSHRC_TARGET"
+cp "$ZSHRC_SOURCE" "$ZSHRC_TARGET"
+echo "Copied $ZSHRC_SOURCE -> $ZSHRC_TARGET"
 
 echo "Zsh setup complete!"
