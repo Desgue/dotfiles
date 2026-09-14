@@ -1,0 +1,15 @@
+# Packages installed on every machine. `python3` is the floating alias on
+# purpose, so it follows whatever version Homebrew currently ships as default.
+
+brew "fzf"
+brew "gh"
+brew "git"
+brew "go"
+brew "gopls"
+brew "neovim"
+brew "python3"
+brew "tmux"
+brew "uv"
+
+cask "claude-code"
+cask "ghostty"

@@ -10,9 +10,9 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Parallel arrays: MODULE_KEYS[i] / MODULE_NAMES[i] / MODULE_PATHS[i]
-MODULE_KEYS=(zsh nvim tmux claude)
-MODULE_NAMES=("Zsh" "Neovim" "Tmux" "Claude Code")
-MODULE_PATHS=("zsh/install.sh" "nvim/install.sh" "tmux/install.sh" "claude/install.sh")
+MODULE_KEYS=(homebrew zsh nvim tmux claude)
+MODULE_NAMES=("Homebrew" "Zsh" "Neovim" "Tmux" "Claude Code")
+MODULE_PATHS=("homebrew/install.sh" "zsh/install.sh" "nvim/install.sh" "tmux/install.sh" "claude/install.sh")
 
 SELECTED=()
 FAILED=()
