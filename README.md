@@ -1,14 +1,17 @@
 # dotfiles
 
-My personal setup for zsh, Neovim, tmux, and Claude Code. One command gets a new
-machine to the same state as the old one.
+My personal setup for Homebrew packages, zsh, Neovim, tmux, and Claude Code. One
+command gets a new machine to the same state as the old one.
 
 ## Requirements
 
 - macOS (Apple Silicon) or Linux (x86_64 / arm64)
 - `git` and `curl`
-- [Homebrew](https://brew.sh) on macOS (optional, but preferred for Neovim)
-- An account with `sudo` access, only if Neovim is installed from its tarball
+- An account with `sudo` access, needed by the Homebrew installer on macOS and by
+  the Neovim tarball fallback on Linux
+
+Homebrew is not a prerequisite: on macOS `homebrew/install.sh` installs it when it
+is missing.
 
 ## Install
 
@@ -36,8 +39,9 @@ tmux plugins.
 
 | Script | What it sets up |
 | --- | --- |
+| `homebrew/install.sh` | Installs Homebrew if it is missing, then every package in `homebrew/Brewfile`. macOS only |
 | `zsh/install.sh` | Installs zsh and Oh My Zsh, then copies `.zshrc` to your home folder |
-| `nvim/install.sh` | Installs Neovim with Homebrew, or the latest release into `/opt/nvim` if Homebrew is missing, copies the config to `~/.config/nvim`, and installs the plugins |
+| `nvim/install.sh` | Installs Neovim with Homebrew, or the latest release into `/opt/nvim` when Homebrew is unavailable, copies the config to `~/.config/nvim`, and installs the plugins |
 | `tmux/install.sh` | Installs tmux, copies `.tmux.conf`, and adds the tmux plugin manager |
 | `claude/install.sh` | Installs Claude Code settings and skills into `~/.claude` |
 
@@ -46,6 +50,9 @@ Example, if you only want tmux:
 ```bash
 ./tmux/install.sh
 ```
+
+To add or drop a package, edit `homebrew/Brewfile` and run `./install.sh homebrew`
+again. Anything already installed is reported as `Using ...` and left alone.
 
 ## Your existing files
 
