@@ -29,5 +29,10 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="mate ~/.zshrc"
 
 # PATH
+# Prepend Homebrew; macOS path_helper appends it after /usr/bin and shadows it
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="/opt/nvim/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# Drop duplicate PATH entries
+typeset -U path PATH
