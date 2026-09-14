@@ -1,3 +1,11 @@
+-- Remote plugin providers. None of the plugins in this config are remote
+-- plugins, so these only ever show up as :checkhealth warnings about missing
+-- language packages. Turn them off rather than installing packages we do not use.
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 vim.opt.compatible = false
 vim.opt.hlsearch = true
 vim.opt.number = true -- Show line numbers
