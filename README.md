@@ -7,8 +7,8 @@ machine to the same state as the old one.
 
 - macOS (Apple Silicon) or Linux (x86_64 / arm64)
 - `git` and `curl`
-- On macOS: [Homebrew](https://brew.sh)
-- An account with `sudo` access (Neovim is installed into `/opt`)
+- [Homebrew](https://brew.sh) on macOS (optional, but preferred for Neovim)
+- An account with `sudo` access, only if Neovim is installed from its tarball
 
 ## Install
 
@@ -18,6 +18,13 @@ cd dotfiles
 ./install.sh
 ```
 
+`install.sh` asks which pieces you want. Pass them directly to skip the menu:
+
+```bash
+./install.sh --all         # everything
+./install.sh zsh tmux      # just these
+```
+
 Then restart your terminal (or run `source ~/.zshrc`).
 
 After the first tmux session starts, press `Ctrl-a` then `I` to download the
@@ -25,15 +32,14 @@ tmux plugins.
 
 ## What it does
 
-`install.sh` runs four smaller scripts in order. Each one can also be run on its
-own if you only want that piece:
+`install.sh` runs the scripts you picked. Each one can also be run on its own:
 
 | Script | What it sets up |
 | --- | --- |
 | `zsh/install.sh` | Installs zsh and Oh My Zsh, then copies `.zshrc` to your home folder |
-| `nvim/install.sh` | Downloads the latest Neovim into `/opt/nvim`, copies the config to `~/.config/nvim`, and installs the plugins |
+| `nvim/install.sh` | Installs Neovim with Homebrew, or the latest release into `/opt/nvim` if Homebrew is missing, copies the config to `~/.config/nvim`, and installs the plugins |
 | `tmux/install.sh` | Installs tmux, copies `.tmux.conf`, and adds the tmux plugin manager |
-| `claude/install.sh` | Copies Claude Code settings and skills into `~/.claude` |
+| `claude/install.sh` | Installs Claude Code settings and skills into `~/.claude` |
 
 Example, if you only want tmux:
 
@@ -43,14 +49,21 @@ Example, if you only want tmux:
 
 ## Your existing files
 
-The scripts copy files into place instead of linking them. Before overwriting
-anything, an existing `~/.zshrc`, `~/.tmux.conf`, or `~/.config/nvim` is renamed
-with a `.bak` ending, so nothing is lost.
+The scripts copy files into place instead of linking them. A config is only
+touched when it actually differs from the one in this repo; when it already
+matches, the script says so and moves on. When it does differ, the current
+version is saved with a `.bak` ending first, and an existing `.bak` is never
+overwritten, so re-running the installer is safe.
 
-Two exceptions to be aware of:
+`claude/install.sh` asks before changing anything already in `~/.claude`:
 
-- `~/.claude/skills` is replaced outright, not backed up.
-- `~/.claude/settings.json` is overwritten.
+- **Merge** (default) adds this repo's skills and settings, keeping your own.
+  `settings.json` is merged key by key with `jq`, so machine-specific settings
+  survive.
+- **Replace** uses this repo's version, after taking a backup.
+- **Skip** leaves it alone.
+
+Use `--merge`, `--replace`, or `--skip` to answer up front.
 
 Because files are copied, editing a config in your home folder does not change
 this repo. Edit the file here, commit it, and run the matching script again to
@@ -62,3 +75,5 @@ apply it.
 git pull
 ./install.sh
 ```
+
+Anything already up to date is reported as such and left untouched.
