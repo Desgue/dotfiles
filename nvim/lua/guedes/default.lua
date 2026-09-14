@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
 		vim.api.nvim_set_option_value("textwidth", 0, { scope = "local" })
 		vim.api.nvim_set_option_value("wrapmargin", 0, { scope = "local" })
-		vim.api.nvim_set_option_value("linebreak", 0, { scope = "local" })
+		vim.api.nvim_set_option_value("linebreak", false, { scope = "local" })
 	end,
 })
 

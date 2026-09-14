@@ -72,23 +72,20 @@ return {
             }
         })
 
-        local lspconfig = require("lspconfig")
-        lspconfig.gopls.setup({
-            cmd = { vim.fn.expand("$HOME/go/bin/gopls") }
+        -- nvim-lspconfig ships each server's defaults in its `lsp/` directory,
+        -- which Neovim finds on the runtimepath. So servers only need enabling
+        -- here, plus whatever needs overriding.
+        -- All servers: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+
+        -- Advertise nvim-cmp's completion capabilities to every server.
+        vim.lsp.config("*", {
+            capabilities = require("cmp_nvim_lsp").default_capabilities()
         })
 
-        -- All languages: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-
-        -- Default lspconfig values for Go are set by `navigator`
-        -- Go: go install golang.org/x/tools/gopls@latest
-
+        -- Go: brew install gopls (or go install golang.org/x/tools/gopls@latest)
         -- Python: brew install pyright
-        lspconfig["pyright"].setup {}
-
         -- Ruby: gem install solargraph
-        lspconfig["solargraph"].setup {}
-
-        -- https://phpactor.readthedocs.io/en/master/usage/standalone.html#installation
-        lspconfig["phpactor"].setup {}
+        -- PHP: https://phpactor.readthedocs.io/en/master/usage/standalone.html#installation
+        vim.lsp.enable({ "gopls", "pyright", "solargraph", "phpactor" })
     end
 }

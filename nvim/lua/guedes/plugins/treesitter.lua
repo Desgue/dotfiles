@@ -1,9 +1,11 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    tag = "v0.9.2",
+    tag = "v0.10.0",
     build = ":TSUpdate",
     dependencies = {
-        { "nvim-treesitter/nvim-treesitter-textobjects" }, -- Syntax aware text-objects
+        -- Track master: `main` is the rewrite and drops the module API that
+        -- nvim-treesitter's master line (and the `textobjects` block below) uses.
+        { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" }, -- Syntax aware text-objects
         {
             "nvim-treesitter/nvim-treesitter-context",     -- Show code context
             opts = { enable = true, mode = "topline", line_numbers = true }
