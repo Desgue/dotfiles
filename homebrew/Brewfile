@@ -1,6 +1,7 @@
 # Packages installed on every machine. `python3` is the floating alias on
 # purpose, so it follows whatever version Homebrew currently ships as default.
 
+brew "fd"
 brew "fzf"
 brew "gh"
 brew "git"
@@ -8,6 +9,7 @@ brew "go"
 brew "gopls"
 brew "neovim"
 brew "python3"
+brew "ripgrep"
 brew "tmux"
 brew "uv"
 
