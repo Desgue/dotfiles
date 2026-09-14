@@ -28,6 +28,10 @@ source $ZSH/oh-my-zsh.sh
 # Aliases
 alias zshconfig="mate ~/.zshrc"
 
+# Git (omz git plugin covers the rest; these must stay after it to win)
+alias gs="git status"
+alias gl="git log --oneline --graph --decorate -20"
+
 # PATH
 # Prepend Homebrew; macOS path_helper appends it after /usr/bin and shadows it
 [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
