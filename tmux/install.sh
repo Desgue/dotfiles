@@ -3,6 +3,9 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=../lib/common.sh
+. "$SCRIPT_DIR/../lib/common.sh"
+
 OS=$(uname -s)
 
 echo "Detected OS: $OS"
@@ -40,16 +43,7 @@ fi
 TMUX_TARGET="$HOME/.tmux.conf"
 
 echo "Setting up tmux config..."
-if [ -L "$TMUX_TARGET" ]; then
-  echo "Removing existing symlink at $TMUX_TARGET"
-  rm "$TMUX_TARGET"
-elif [ -f "$TMUX_TARGET" ]; then
-  echo "Backing up existing .tmux.conf to ${TMUX_TARGET}.bak"
-  mv "$TMUX_TARGET" "${TMUX_TARGET}.bak"
-fi
-
-cp "$SCRIPT_DIR/.tmux.conf" "$TMUX_TARGET"
-echo "Copied tmux config to $TMUX_TARGET"
+install_file "$SCRIPT_DIR/.tmux.conf" "$TMUX_TARGET" ".tmux.conf"
 
 # Install TPM (Tmux Plugin Manager)
 TPM_DIR="$HOME/.tmux/plugins/tpm"

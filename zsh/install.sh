@@ -39,19 +39,13 @@ fi
 
 # Copy .zshrc
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=../lib/common.sh
+. "$SCRIPT_DIR/../lib/common.sh"
+
 ZSHRC_SOURCE="$SCRIPT_DIR/.zshrc"
 ZSHRC_TARGET="$HOME/.zshrc"
 
 echo "Setting up .zshrc..."
-if [ -L "$ZSHRC_TARGET" ]; then
-  echo "Removing existing symlink at $ZSHRC_TARGET"
-  rm "$ZSHRC_TARGET"
-elif [ -f "$ZSHRC_TARGET" ]; then
-  echo "Backing up existing .zshrc to ${ZSHRC_TARGET}.bak"
-  mv "$ZSHRC_TARGET" "${ZSHRC_TARGET}.bak"
-fi
-
-cp "$ZSHRC_SOURCE" "$ZSHRC_TARGET"
-echo "Copied $ZSHRC_SOURCE -> $ZSHRC_TARGET"
+install_file "$ZSHRC_SOURCE" "$ZSHRC_TARGET" ".zshrc"
 
 echo "Zsh setup complete!"
